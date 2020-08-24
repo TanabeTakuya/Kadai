@@ -14,8 +14,9 @@
 </head>
 <body>
 
-<h1>すっぺらぴっちょん</h1>
-<h3 id = "my-roll">出題者</h3>
+<h1>文字並び替えゲーム</h1>
+<h3 id = "my-roll"></h3>
+<h3 id = "ansewer-question"></h3>
 <!-- STEP1. 接続中 -->
 <section id="nowconnecting">
   ...サーバに接続中
@@ -24,11 +25,11 @@
 
 <!-- STEP2. 名前を入力 -->
 <section id="inputmyname">
-  <p>すっぺらぴっちょん</p>
+  <p>名前を入力して出題者か回答者かを選んでください</p>
   <form id="frm-myname">
-    <input type="text" id="txt-myname">
+    <input type="text" id="txt-myname" autocomplete="off">
     <button id ="question">出題</button>
-    <button id ="ansewre">回答</button>
+    <button id ="ansewer">回答</button>
   </form>
 </section>
 <!-- /名前を入力 -->
@@ -37,8 +38,9 @@
 <section id="chat">
   <!-- 発言フォーム -->
   <form id="frm-post">
-    <span id="myname"></span>&nbsp;<input type="text" id="msg">
-    <button>送信</button>
+    <span id="myname"></span>&nbsp;<input type="text" id="msg" autocomplete="off">
+    <button>送信</button><br>
+    <button id = "return">もどる</button>
   </form>
 
   <!-- 発言ログ -->
