@@ -10,7 +10,6 @@ const IAM = {
   const socket = io();
   
   let myRoll;
-  let win = 2;
   let an;
   // 正常に接続したら
   socket.on("connect", ()=>{
@@ -63,7 +62,6 @@ const IAM = {
 
       myRoll = "Ansewer";
     });
-
   });
   
   
@@ -90,7 +88,9 @@ const IAM = {
         token: IAM.token,
         name: IAM.name
       });
-      document.getElementById("ansewer-question").innerText = "回答があるまでお待ちください" ;     
+      $("#chat").style.display = "none";         // チャットを表示
+      an =  msg.value;    
+      document.getElementById("ansewer-question").innerText = "回答があるまでお待ちください。正解：" + an;
     }
     else if(operation != "出題があるまでお待ちください"){
       // Socket.ioサーバへ送信
@@ -99,11 +99,7 @@ const IAM = {
         token: IAM.token,
         name: IAM.name
       });
-      if(operation === text){
-        an = msg.value;
-      }
-    }
-  
+    }  
     // 発言フォームを空にする
     msg.value = "";
   });
@@ -134,17 +130,11 @@ const IAM = {
       if(myRoll ==="Ansewer"){
         li.innerHTML = `<span class="msg-me">${msg.name}> ${msg.text}</span>`;
         if(an === msg.text){
-          win = 1;
           document.getElementById("ansewer-question").innerText = "正解";
-          $("#return").style.display = "none"; 
         }
         else{
           document.getElementById("ansewer-question").innerText = "不正解";
-          win = 0;
-          $("#return").style.display = "none";
         }
-      }
-      else if(document.getElementById("ansewer-question").innerText != "回答があるまでお待ちください" ){
       }
     }
     else if(myRoll ==="Ansewer"){
@@ -153,19 +143,17 @@ const IAM = {
       let questionRand = a.sort();
       document.getElementById("ansewer-question").innerText = questionRand.join("");
     }
-    else if(myRoll ==="Question" ){
-      if(win === 0){
-        document.getElementById("ansewer-question").innerText = "貴方の勝ち";
-        $("#return").style.display = "none";
-      }
-      else{
-        document.getElementById("ansewer-question").innerText = "貴方の負け";
-        $("#return").style.display = "none"; 
-      }
+    else{
+      if(myRoll ==="Question" ){
+        if(an === msg.text){
+          document.getElementById("ansewer-question").innerText = "貴方の負け";
+
+        }
+        else if(an != msg.text){
+          document.getElementById("ansewer-question").innerText = "貴方の勝ち";
+        }      
+      }  
     }
-    document.getElementById("return").onclick = function() {
-      //最初に戻りたい
-    };
     // リストの最初に追加
     list.insertBefore(li, list.firstChild);
   }
